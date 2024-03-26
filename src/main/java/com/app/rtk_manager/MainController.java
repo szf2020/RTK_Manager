@@ -6,13 +6,14 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 public class MainController {
 
+    @FXML
+    public TextField ipAddress;
+    @FXML
+    public TextField udpPort;
     @FXML
     private ChoiceBox<String> serial1;
     @FXML
@@ -24,9 +25,14 @@ public class MainController {
     @FXML
     private CheckBox dataCheckBox;
     @FXML
+    private CheckBox dataCheckBox2;
+    @FXML
     private Button startButton;
     @FXML
     private Label dataLabel;
+
+
+
 
     private MavlinkStream mavlinkStream = new MavlinkStream();
     private DataRequest dataRequest = new DataRequest();
@@ -57,6 +63,17 @@ public class MainController {
                 }
             }
         });
+
+        // dataCheckBox2에 대한 리스너 추가
+        dataCheckBox2.setOnAction(event -> {
+            if (dataCheckBox2.isSelected()) {
+                // ipAddress와 udpPort 값 설정
+                String ip = ipAddress.getText();
+                int portNum = Integer.parseInt(udpPort.getText());
+                mavlinkStream.setIpAddressAndPort(ip, portNum);
+            }
+        });
+
     }
 
     private void initializeSerialPorts() {
@@ -71,6 +88,7 @@ public class MainController {
         baudrate1.getItems().addAll(null,9600, 115200);
         baudrate2.getItems().addAll(null,9600, 115200);
     }
+
 
     private void onStartButtonClick()  {
         if (isRunning) {
@@ -110,12 +128,7 @@ public class MainController {
             isComportBaudrateDisabled = false;
             startButton.setText("Start");
         }
-
-
-
     }
-
-
 
     private void initializeDataRequest(String selectedSerial, int selectedBaudrate) {
         dataRequest = new DataRequest();
@@ -135,14 +148,21 @@ public class MainController {
                     String receivedData = dataRequest.readData();
                     Platform.runLater(() -> dataLabel.setText(receivedData));
 
-
-
-
                     // dataCheckBox가 선택되었는지 그리고 mavlinkStream이 초기화되었는지 확인
                     if (dataCheckBox.isSelected() && mavlinkStream != null) {
-                        // MavpacketDatatoLora 메서드 호출
                         dataRequest.sinkFlag = 1;
-                        //dataRequest.mavlinkStream.MavpacketDatatoLora();
+                    }
+
+                    if(dataCheckBox2.isSelected() && mavlinkStream != null){
+                        dataRequest.sinkFlag = 2;
+                        // UDP 전송을 위한 IP 주소와 포트 설정
+                        String ip = ipAddress.getText();
+                        int portNum = Integer.parseInt(udpPort.getText());
+                        mavlinkStream.setIpAddressAndPort(ip, portNum);
+                    }
+
+                    if (dataCheckBox.isSelected() && dataCheckBox2.isSelected()) {
+                        dataRequest.sinkFlag = 3;
                     }
 
                     try {

@@ -1,7 +1,6 @@
 package com.app.rtk_manager;
 
 import com.fazecast.jSerialComm.SerialPort;
-
 import java.util.Arrays;
 
 
@@ -204,7 +203,12 @@ public class DataRequest {
         System.out.println();
         // RTCM 데이터를 MavlinkStream으로 전달
         mavlinkStream.processIncomingData(token);
-        if(sinkFlag==1) mavlinkStream.MavpacketDatatoLora();
+        if(sinkFlag==1) mavlinkStream.sendToLora();
+        if(sinkFlag==2) mavlinkStream.sendToUDP();
+        if(sinkFlag==3){
+            mavlinkStream.sendToLora();
+            mavlinkStream.sendToUDP();
+        }
     }
 
     private void parseUBX(byte[] token) {
