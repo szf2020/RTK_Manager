@@ -23,21 +23,6 @@ public class MavlinkStream {
         }
     }
 
-    public void setSerialport(String selectedSerial2, int selectedBaudrate2) {
-        try {
-            this.comPort2 = SerialPort.getCommPort(selectedSerial2);
-            this.comPort2.setBaudRate(selectedBaudrate2);
-
-            if (comPort2.openPort()) {
-                System.out.println("Serial2 port successfully opened.");
-            } else {
-                System.err.println("Error opening the serial2 port.");
-            }
-        } catch (Exception e) {
-
-            System.err.println("Error creating SerialPort: " + e.getMessage());
-        }
-    }
 
     public void processIncomingData(byte[] rtcmData) {
         try {
@@ -121,23 +106,6 @@ public class MavlinkStream {
             handleException("Error processing incoming data.", e);
         }
     }
-
-    //시리얼을 통해 LoRA패킷 데이터 전송
-    public void sendToLora() {
-        try {
-            if (isSerialPortOpen()) {
-                int bytesWritten = comPort2.writeBytes(mavlinkpacket, mavlinkpacket.length);
-                System.out.printf("LoRA data transmission complete :" + " " + bytesWritten + "\n");
-//                for (byte b : mavlinkpacket) {
-//                    System.out.printf("%02X ", b);
-//                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            handleException("Lora transmission error occurred.", e);
-        }
-    }
-
     //IP주소와 포트를 통해 UDP패킷 데이터 전송
     public void sendToUDP() {
         try {
@@ -167,6 +135,38 @@ public class MavlinkStream {
         }
     }
 
+    public void setSerialport(String selectedSerial2, int selectedBaudrate2) {
+        try {
+            this.comPort2 = SerialPort.getCommPort(selectedSerial2);
+            this.comPort2.setBaudRate(selectedBaudrate2);
+
+            if (comPort2.openPort()) {
+                System.out.println("Serial2 port successfully opened.");
+            } else {
+                System.err.println("Error opening the serial2 port.");
+            }
+        } catch (Exception e) {
+
+            System.err.println("Error creating SerialPort: " + e.getMessage());
+        }
+    }
+
+    //시리얼을 통해 LoRA패킷 데이터 전송
+    public void sendToLora() {
+        try {
+            if (isSerialPortOpen()) {
+                int bytesWritten = comPort2.writeBytes(mavlinkpacket, mavlinkpacket.length);
+                System.out.printf("LoRA data transmission complete :" + " " + bytesWritten + "\n");
+//                for (byte b : mavlinkpacket) {
+//                    System.out.printf("%02X ", b);
+//                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            handleException("Lora transmission error occurred.", e);
+        }
+    }
+
     private boolean isSerialPortOpen() {
         return comPort2 != null && comPort2.isOpen();
     }
@@ -174,4 +174,5 @@ public class MavlinkStream {
     private static void handleException(String message, Exception e) {
         System.err.println(message + ": " + e.getMessage());
     }
+
 }

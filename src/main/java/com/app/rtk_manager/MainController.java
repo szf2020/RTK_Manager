@@ -32,9 +32,6 @@ public class MainController {
     private Label dataLabel;
 
 
-
-
-    private MavlinkStream mavlinkStream = new MavlinkStream();
     private DataRequest dataRequest = new DataRequest();
     private Thread backgroundThread;
     private boolean isRunning = false;
@@ -44,6 +41,7 @@ public class MainController {
     private void initialize() {
         initializeSerialPorts();
         initializeBaudrates();
+
         startButton.setOnAction(event -> onStartButtonClick());
 
         // dataCheckBox에 대한 리스너 추가
@@ -56,7 +54,7 @@ public class MainController {
                     // serial2와 baudrate2가 모두 선택된 경우 mavlinkStream을 초기화
                     selectedBaudrate2 = selectedBaudrate2.intValue();
                     initializeMavlinkStream(selectedSerial2, selectedBaudrate2);
-                    if (dataCheckBox.isSelected() && mavlinkStream != null) {
+                    if (dataCheckBox.isSelected() && dataRequest.mavlinkStream != null) {
                         dataRequest.sinkFlag = dataRequest.sinkFlag | 0b00000001;
                     }
                 } else {
@@ -73,9 +71,9 @@ public class MainController {
                 // ipAddress와 udpPort 값 설정
                 String ip = ipAddress.getText();
                 int portNum = Integer.parseInt(udpPort.getText());
-                mavlinkStream.setIpAddressAndPort(ip, portNum);
+                dataRequest.mavlinkStream.setIpAddressAndPort(ip, portNum);
 
-                if(dataCheckBox2.isSelected() && mavlinkStream != null){
+                if(dataCheckBox2.isSelected() && dataRequest.mavlinkStream != null){
                     dataRequest.sinkFlag = dataRequest.sinkFlag | 0b00000010;
                 }
             }
@@ -138,13 +136,17 @@ public class MainController {
     }
 
     private void initializeDataRequest(String selectedSerial, int selectedBaudrate) {
-        dataRequest = new DataRequest();
+
+
+
+
         dataRequest.setSerialport(selectedSerial, selectedBaudrate);
     }
 
     private void initializeMavlinkStream(String selectedSerial2, int selectedBaudrate) {
-        mavlinkStream = dataRequest.mavlinkStream; //   new MavlinkStream();
-        mavlinkStream.setSerialport(selectedSerial2, selectedBaudrate);
+
+
+        dataRequest.mavlinkStream.setSerialport(selectedSerial2, selectedBaudrate);
     }
 
 
