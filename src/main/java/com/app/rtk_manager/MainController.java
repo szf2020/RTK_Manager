@@ -56,6 +56,9 @@ public class MainController {
                     // serial2와 baudrate2가 모두 선택된 경우 mavlinkStream을 초기화
                     selectedBaudrate2 = selectedBaudrate2.intValue();
                     initializeMavlinkStream(selectedSerial2, selectedBaudrate2);
+                    if (dataCheckBox.isSelected() && mavlinkStream != null) {
+                        dataRequest.sinkFlag = dataRequest.sinkFlag | 0b00000001;
+                    }
                 } else {
                     // serial2 또는 baudrate2가 선택되지 않은 경우 사용자에게 선택하도록 안내
                     System.out.println("Serial2와 Baudrate2를 선택하세요.");
@@ -71,6 +74,10 @@ public class MainController {
                 String ip = ipAddress.getText();
                 int portNum = Integer.parseInt(udpPort.getText());
                 mavlinkStream.setIpAddressAndPort(ip, portNum);
+
+                if(dataCheckBox2.isSelected() && mavlinkStream != null){
+                    dataRequest.sinkFlag = dataRequest.sinkFlag | 0b00000010;
+                }
             }
         });
 
@@ -148,23 +155,6 @@ public class MainController {
                     String receivedData = dataRequest.readData();
                     Platform.runLater(() -> dataLabel.setText(receivedData));
 
-                    // dataCheckBox가 선택되었는지 그리고 mavlinkStream이 초기화되었는지 확인
-                    if (dataCheckBox.isSelected() && mavlinkStream != null) {
-                        dataRequest.sinkFlag = 1;
-                    }
-
-                    if(dataCheckBox2.isSelected() && mavlinkStream != null){
-                        dataRequest.sinkFlag = 2;
-                        // UDP 전송을 위한 IP 주소와 포트 설정
-                        String ip = ipAddress.getText();
-                        int portNum = Integer.parseInt(udpPort.getText());
-                        mavlinkStream.setIpAddressAndPort(ip, portNum);
-                    }
-
-                    if (dataCheckBox.isSelected() && dataCheckBox2.isSelected()) {
-                        dataRequest.sinkFlag = 3;
-                    }
-
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -172,7 +162,7 @@ public class MainController {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+               e.printStackTrace();
             }
         });
         backgroundThread.setDaemon(true);

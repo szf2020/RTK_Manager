@@ -7,7 +7,6 @@ import java.net.*;
 
 public class MavlinkStream {
 
-
     private byte[] mavlinkpacket;
     private SerialPort comPort2;
     private short _sequenceId = 0; // 시퀀스 ID를 클래스 변수로 변경
@@ -20,7 +19,6 @@ public class MavlinkStream {
         try {
             this.udpSocket = new DatagramSocket();
         } catch (SocketException e) {
-            e.printStackTrace();
             System.err.println("Error creating UDP socket: " + e.getMessage());
         }
     }
@@ -36,11 +34,10 @@ public class MavlinkStream {
                 System.err.println("Error opening the serial2 port.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+
             System.err.println("Error creating SerialPort: " + e.getMessage());
         }
     }
-
 
     public void processIncomingData(byte[] rtcmData) {
         try {
@@ -125,17 +122,6 @@ public class MavlinkStream {
         }
     }
 
-
-    // IP 주소와 포트 설정
-    public void setIpAddressAndPort(String ipAddress, int port) {
-        try {
-            this.ipAddress = InetAddress.getByName(ipAddress);
-            this.port = port;
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.err.println("Error setting IP address and port: " + e.getMessage());
-        }
-    }
     //시리얼을 통해 LoRA패킷 데이터 전송
     public void sendToLora() {
         try {
@@ -147,6 +133,7 @@ public class MavlinkStream {
 //                }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             handleException("Lora transmission error occurred.", e);
         }
     }
@@ -154,27 +141,37 @@ public class MavlinkStream {
     //IP주소와 포트를 통해 UDP패킷 데이터 전송
     public void sendToUDP() {
         try {
+
             DatagramPacket packet = new DatagramPacket(mavlinkpacket, mavlinkpacket.length, ipAddress, port);
+            System.out.println("IP Address set : "+ ipAddress+ "\n" + "set port : "+ port);
             udpSocket.send(packet);
-            System.out.printf("Mavlink data sent successfully UDP. => Host IP : " + ipAddress + "\t" + "Port :" + port + "\n");
+            System.out.printf("Mavlink data sent successfully UDP. => Host IP : " + ipAddress + "  " + "Port :" + port + "\n" );
             System.out.println("UDP Packet : " + mavlinkpacket.length);
-//            for (byte b : mavlinkpacket) {
-//                    System.out.printf("%02X ", b);
-//                }
+
         } catch (Exception e) {
-            e.printStackTrace();
             System.err.println("Failed to send to UDP socket");
         }
     }
 
+    // IP 주소와 포트 설정
+    public void setIpAddressAndPort(String ipAddress, int port) {
+        try {
+            this.ipAddress = InetAddress.getByName(ipAddress);
+            this.port = port;
+            System.out.println("set IP Address : "+ipAddress+"set port : "+port);
+
+            System.out.println("set IP Address and port complete");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            System.err.println("Error setting IP address and port: " + e.getMessage());
+        }
+    }
 
     private boolean isSerialPortOpen() {
         return comPort2 != null && comPort2.isOpen();
     }
 
     private static void handleException(String message, Exception e) {
-        e.printStackTrace();
         System.err.println(message + ": " + e.getMessage());
     }
 }
-

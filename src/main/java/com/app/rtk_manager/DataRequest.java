@@ -5,13 +5,11 @@ import java.util.Arrays;
 
 
 public class DataRequest {
-    public int sinkFlag;
+    public int sinkFlag=0;
     public MavlinkStream mavlinkStream;
 
     public DataRequest() {
         this.setMavlinkStream(new MavlinkStream());
-        sinkFlag = 0;
-        // 다른 초기화 작업 수행
     }
 
     private SerialPort comPort;
@@ -31,8 +29,6 @@ public class DataRequest {
             System.err.println("Error creating SerialPort: " + e.getMessage());
         }
     }
-
-
 
     // sendRTCM 메서드
     public void sendRTCM() {
@@ -203,12 +199,13 @@ public class DataRequest {
         System.out.println();
         // RTCM 데이터를 MavlinkStream으로 전달
         mavlinkStream.processIncomingData(token);
-        if(sinkFlag==1) mavlinkStream.sendToLora();
-        if(sinkFlag==2) mavlinkStream.sendToUDP();
-        if(sinkFlag==3){
+        if((sinkFlag & 0b00000001) == 0b00000001) {
             mavlinkStream.sendToLora();
+        }
+        if((sinkFlag & 0b00000010) == 0b00000010) {
             mavlinkStream.sendToUDP();
         }
+
     }
 
     private void parseUBX(byte[] token) {
@@ -227,7 +224,6 @@ public class DataRequest {
         System.out.println();
 
     }
-
 
     public void setMavlinkStream(MavlinkStream mavlinkStream) {
         this.mavlinkStream = mavlinkStream;
