@@ -98,7 +98,6 @@ public class MainController {
     private void onStartButtonClick()  {
         if (isRunning) {
             stopBackgroundThread();
-
         } else {
             String selectedSerial1 = serial1.getValue();
             Integer selectedBaudrate1 = baudrate1.getValue();
@@ -109,8 +108,6 @@ public class MainController {
 
                 dataRequest.sendRTCM();
                 dataRequest.sendSurveyin();
-
-
 
                 startBackgroundThread(isRunning);
 
@@ -136,16 +133,10 @@ public class MainController {
     }
 
     private void initializeDataRequest(String selectedSerial, int selectedBaudrate) {
-
-
-
-
         dataRequest.setSerialport(selectedSerial, selectedBaudrate);
     }
 
     private void initializeMavlinkStream(String selectedSerial2, int selectedBaudrate) {
-
-
         dataRequest.mavlinkStream.setSerialport(selectedSerial2, selectedBaudrate);
     }
 

@@ -11,8 +11,8 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("/com/app/rtk_manager/RTK_Manager.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 895, 648);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("RTK_Manager.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 478, 348);
             stage.setTitle("RTK Manager");
             stage.setScene(scene);
             stage.show();
