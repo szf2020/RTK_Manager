@@ -1,42 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="348.0" prefWidth="478.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.rtk_manager.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="470.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.rtk_manager.MainController">
   <children>
-    <Label layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="105.0" text="Source settings :" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-    <ChoiceBox fx:id="serial1" layoutX="14.0" layoutY="34.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0" />
-    <ChoiceBox fx:id="baudrate1" layoutX="10.0" layoutY="74.0" prefWidth="150.0" AnchorPane.topAnchor="60.0" />
-    <Label layoutX="220.0" layoutY="6.0" prefHeight="26.0" prefWidth="91.0" text="Sink settings : " AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="5.0" />
-    <ChoiceBox fx:id="serial2" layoutX="220.0" layoutY="26.0" prefWidth="150.0" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="30.0">
-      <opaqueInsets>
-        <Insets />
-      </opaqueInsets>
-    </ChoiceBox>
-    <ChoiceBox fx:id="baudrate2" layoutX="216.0" layoutY="66.0" prefWidth="150.0" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="60.0" />
-    <CheckBox fx:id="dataCheckBox" layoutX="355.0" layoutY="39.0" mnemonicParsing="false" text="Use serial sink" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="32.0" />
-    <Button fx:id="startButton" layoutX="106.0" layoutY="100.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="66.0" text="start" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="90.0" />
-    <Label layoutX="25.0" layoutY="129.0" text="Host : " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="120.0" />
-    <TextField fx:id="ipAddress" layoutX="12.0" layoutY="140.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="140.0" />
-    <Label layoutX="180.0" layoutY="120.0" text="Port : " AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="120.0" />
-    <TextField fx:id="udpPort" layoutX="216.0" layoutY="140.0" prefHeight="21.0" prefWidth="66.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="140.0" />
-    <CheckBox fx:id="dataCheckBox2" layoutX="234.0" layoutY="142.0" mnemonicParsing="false" text="Use UDP client sink" />
-    <Label layoutX="12.0" layoutY="170.0" text="DSS client Host : " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="170.0" />
-    <TextField layoutX="12.0" layoutY="189.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="190.0" />
-    <Label layoutX="180.0" layoutY="169.0" text="Port : " AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="170.0" />
-    <TextField layoutX="180.0" layoutY="188.0" prefHeight="21.0" prefWidth="66.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="190.0" />
-    <AnchorPane layoutX="10.0" layoutY="232.0" prefHeight="58.0" prefWidth="458.0" style="-fx-border-color: gray;" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="240.0">
-      <children>
-        <Label fx:id="dataLabel" layoutX="11.0" layoutY="10.0" prefHeight="49.0" prefWidth="442.0" text="received data" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="9.0" />
-      </children>
-    </AnchorPane>
-    <Label layoutX="14.0" layoutY="218.0" text="Link status" AnchorPane.leftAnchor="10.0" />
-      <CheckBox fx:id="dataCheckBox21" layoutX="234.0" layoutY="193.0" mnemonicParsing="false" text="Use TCP Server sink" />
+
+      <Accordion layoutX="17.0" layoutY="298.0" />
+      <AnchorPane prefHeight="85.0" prefWidth="470.0" style="-fx-background-color: #3B4754;" />
+      <AnchorPane layoutY="94.0" prefHeight="340.0" prefWidth="473.0" style="-fx-background-color: #3B4754;">
+         <children>
+          <Label layoutX="14.0" layoutY="18.0" prefHeight="26.0" prefWidth="105.0" text="Source settings :" textFill="#eee4e4" />
+          <Label layoutX="171.0" layoutY="19.0" prefHeight="26.0" prefWidth="91.0" text="Sink settings : " textFill="#f2eeee" />
+          <ChoiceBox fx:id="serial1" layoutX="9.0" layoutY="55.0" prefHeight="21.0" prefWidth="150.0" />
+          <ChoiceBox fx:id="baudrate1" layoutX="9.0" layoutY="93.0" prefWidth="150.0" />
+          <ChoiceBox fx:id="serial2" layoutX="166.0" layoutY="55.0" prefWidth="150.0" AnchorPane.leftAnchor="166.0" AnchorPane.topAnchor="55.0">
+            <opaqueInsets>
+              <Insets />
+            </opaqueInsets>
+          </ChoiceBox>
+          <ChoiceBox fx:id="baudrate2" layoutX="165.0" layoutY="93.0" prefWidth="150.0" />
+          <CheckBox fx:id="dataCheckBox" layoutX="322.0" layoutY="58.0" mnemonicParsing="false" text="Use serial sink" textFill="#f2eeee" />
+          <Button fx:id="startButton" layoutX="94.0" layoutY="134.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="66.0" text="start" />
+          <Label layoutX="10.0" layoutY="174.0" text="Host : " textFill="#eeeaea" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="174.0" />
+          <TextField fx:id="ipAddress" layoutX="10.0" layoutY="203.0" />
+          <Label layoutX="163.0" layoutY="181.0" text="Port : " textFill="#eeeaea" />
+          <TextField fx:id="udpPort" layoutX="163.0" layoutY="202.0" prefHeight="21.0" prefWidth="66.0" />
+          <CheckBox fx:id="dataCheckBox2" layoutX="240.0" layoutY="205.0" mnemonicParsing="false" text="Use UDP client sink" textFill="#eeeaea" />
+          <Label layoutX="10.0" layoutY="231.0" text="DSS client Host : " textFill="#eeeaea" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="231.0" />
+          <TextField layoutX="10.0" layoutY="253.0" />
+          <Label layoutX="163.0" layoutY="231.0" text="Port : " textFill="#eeeaea" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="231.0" />
+          <TextField layoutX="163.0" layoutY="253.0" prefHeight="21.0" prefWidth="66.0" />
+            <CheckBox fx:id="dataCheckBox21" layoutX="241.0" layoutY="256.0" mnemonicParsing="false" text="Use TCP Server sink" textFill="#eeeaea" />
+          <Label layoutX="8.0" layoutY="285.0" text="Link status" textFill="#f8f1f1" />
+          <AnchorPane layoutX="5.0" layoutY="303.0" prefHeight="88.0" prefWidth="464.0" style="-fx-border-color: gray;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="303.0">
+               <children>
+              <Label fx:id="dataLabel" layoutX="11.0" layoutY="1.0" prefHeight="85.0" prefWidth="440.0" text="received data" textFill="#eeeaea" />
+               </children>
+          </AnchorPane>
+         </children>
+      </AnchorPane>
   </children>
 </AnchorPane>

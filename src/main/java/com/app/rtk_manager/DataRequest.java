@@ -38,17 +38,29 @@ public class DataRequest {
                 byte[] rtcCommand1005 = CommandFactory.RTCM1005();
                 sendCommandWithChecksum("RTCM1005", rtcCommand1005);
 
+                byte[] rtcCommand1074 = CommandFactory.RTCM1074();
+                sendCommandWithChecksum("RTCM1074", rtcCommand1074);
+
                 byte[] rtcCommand1077 = CommandFactory.RTCM1077();
                 sendCommandWithChecksum("RTCM1077", rtcCommand1077);
 
+                byte[] rtcCommand1084 = CommandFactory.RTCM1084();
+                sendCommandWithChecksum("RTCM1084", rtcCommand1084);
+
                 byte[] rtcCommand1087 = CommandFactory.RTCM1087();
                 sendCommandWithChecksum("RTCM1087", rtcCommand1087);
+
+                byte[] rtcCommand1094 = CommandFactory.RTCM1094();
+                sendCommandWithChecksum("RTCM1094", rtcCommand1094);
 
                 byte[] rtcCommand1230 = CommandFactory.RTCM1230();
                 sendCommandWithChecksum("RTCM1230", rtcCommand1230);
 
                 byte[] rtcCommand1097 = CommandFactory.RTCM1097();
                 sendCommandWithChecksum("RTCM1097", rtcCommand1097);
+
+                byte[] rtcCommand1124 = CommandFactory.RTCM1124();
+                sendCommandWithChecksum("RTCM1124", rtcCommand1124);
 
                 byte[] rtcCommand1127 = CommandFactory.RTCM1127();
                 sendCommandWithChecksum("RTCM1127", rtcCommand1127);
@@ -128,7 +140,6 @@ public class DataRequest {
         return receivedData.toString();
     }
 
-
     private void parseData(byte[] data) {
         int type = 0;
         int offset = 0;
@@ -140,8 +151,8 @@ public class DataRequest {
                     token = Arrays.copyOfRange(data, offset, i - 1);
                     processToken(type, token);
                 }
-                System.out.println(" ");
-                System.out.println(i + " : UBX  ");
+//                System.out.println(" ");
+//                System.out.println(i + " : UBX  ");
                 type = 2;
                 offset = i - 1;
             }
@@ -151,8 +162,8 @@ public class DataRequest {
                     token = Arrays.copyOfRange(data, offset, i - 1);
                     processToken(type, token);
                 }
-                System.out.println(" ");
-                System.out.println(i + " : NMEA  ");
+//                System.out.println(" ");
+//                System.out.println(i + " : NMEA  ");
                 type = 1;
                 offset = i - 1;
             }
@@ -178,10 +189,10 @@ public class DataRequest {
     private void processToken(int type, byte[] token) {
         switch (type) {
             case 1:
-                parseNMEA(token);
+//                parseNMEA(token);
                 break;
             case 2:
-                parseUBX(token);
+//                parseUBX(token);
                 break;
             case 3:
                 parseRTCM(token);
@@ -217,11 +228,11 @@ public class DataRequest {
     }
 
     private void parseNMEA(byte[] token) {
-        System.out.print("NMEA : ");
-        for (byte b : token) {
-            System.out.printf("%02X ", b);
-        }
-        System.out.println();
+//        System.out.print("NMEA : ");
+//        for (byte b : token) {
+//            System.out.printf("%02X ", b);
+//        }
+//        System.out.println();
 
     }
 

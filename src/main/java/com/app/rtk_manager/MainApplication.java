@@ -12,7 +12,7 @@ public class MainApplication extends Application {
     public void start(Stage stage) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("RTK_Manager.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 478, 348);
+            Scene scene = new Scene(fxmlLoader.load(), 470, 480);
             stage.setTitle("RTK Manager");
             stage.setScene(scene);
             stage.show();

@@ -109,9 +109,8 @@ public class MavlinkStream {
     //IP주소와 포트를 통해 UDP패킷 데이터 전송
     public void sendToUDP() {
         try {
-
             DatagramPacket packet = new DatagramPacket(mavlinkpacket, mavlinkpacket.length, ipAddress, port);
-            System.out.println("IP Address set : "+ ipAddress+ "\n" + "set port : "+ port);
+          //  System.out.println("IP Address set : "+ ipAddress+ "\n" + "set port : "+ port);
             udpSocket.send(packet);
             System.out.printf("Mavlink data sent successfully UDP. => Host IP : " + ipAddress + "  " + "Port :" + port + "\n" );
             System.out.println("UDP Packet : " + mavlinkpacket.length);
@@ -126,11 +125,11 @@ public class MavlinkStream {
         try {
             this.ipAddress = InetAddress.getByName(ipAddress);
             this.port = port;
-            System.out.println("set IP Address : "+ipAddress+"set port : "+port);
+          //  System.out.println("set IP Address : "+ipAddress+"set port : "+port);
 
             System.out.println("set IP Address and port complete");
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+
             System.err.println("Error setting IP address and port: " + e.getMessage());
         }
     }
