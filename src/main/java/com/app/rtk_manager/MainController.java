@@ -71,6 +71,9 @@ public class MainController {
     private void initialize() {
         initializeSerialPorts();
         initializeBaudrates();
+        h_settings.setVisible(false);
+        h_status.setVisible(false);
+        h_graph.setVisible(false);
 
         startButton.setOnAction(event -> onStartButtonClick());
 
