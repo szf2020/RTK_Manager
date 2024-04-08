@@ -67,13 +67,11 @@ public class MainController {
             topBarVisible = false;
         } else if (event.getTarget() == btn_exit) {
             if (!topBarVisible) {
-                // 보여지고 있는 페이지를 숨김
                 h_settings.setVisible(false);
                 h_status.setVisible(false);
                 h_graph.setVisible(false);
                 topBarVisible = true;
             } else {
-                // 어플리케이션 종료
                 Platform.exit();
             }
         }
