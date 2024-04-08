@@ -37,6 +37,8 @@ public class MainController {
     private ImageView btn_settings,btn_status,btn_graph,btn_exit;
     @FXML
     private AnchorPane h_settings,h_status,h_graph;
+    private boolean topBarVisible = true;
+
 
 
     private DataRequest dataRequest = new DataRequest();
@@ -52,19 +54,28 @@ public class MainController {
             h_settings.setVisible(true);
             h_status.setVisible(false);
             h_graph.setVisible(false);
+            topBarVisible = false;
         } else if (event.getTarget() == btn_status) {
             h_settings.setVisible(false);
             h_status.setVisible(true);
             h_graph.setVisible(false);
+            topBarVisible = false;
         } else if (event.getTarget() == btn_graph) {
             h_settings.setVisible(false);
             h_status.setVisible(false);
             h_graph.setVisible(true);
-        }else if (event.getTarget() == btn_exit) {
-//            h_settings.setVisible(false);
-//            h_status.setVisible(false);
-//            h_graph.setVisible(false);
-            Platform.exit();
+            topBarVisible = false;
+        } else if (event.getTarget() == btn_exit) {
+            if (!topBarVisible) {
+                // 보여지고 있는 페이지를 숨김
+                h_settings.setVisible(false);
+                h_status.setVisible(false);
+                h_graph.setVisible(false);
+                topBarVisible = true;
+            } else {
+                // 어플리케이션 종료
+                Platform.exit();
+            }
         }
     }
     @FXML

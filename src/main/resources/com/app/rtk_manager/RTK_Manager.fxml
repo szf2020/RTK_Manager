@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -13,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="470.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.rtk_manager.MainController">
   <children>
-      <AnchorPane fx:id="topbar" prefHeight="95.0" prefWidth="470.0" style="-fx-background-color: #353F54;">
+      <AnchorPane fx:id="topbar" prefHeight="95.0" prefWidth="470.0" style="-fx-background-color: #353F54; -fx-background-radius: 5;">
          <children>
             <ImageView fx:id="btn_settings" layoutX="63.0" layoutY="18.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -87,7 +88,7 @@
                <font>
                   <Font name="SansSerif Bold" size="14.0" />
                </font></Label>
-          <TextField fx:id="udpPort" layoutX="167.0" layoutY="162.0" prefHeight="21.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
+          <TextField fx:id="udpPort" layoutX="167.0" layoutY="162.0" prefHeight="20.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
           <CheckBox fx:id="dataCheckBox2" layoutX="244.0" layoutY="165.0" mnemonicParsing="false" text="Use UDP client sink" textFill="#d9d9d9">
                <font>
                   <Font name="SansSerif Bold" size="14.0" />
@@ -101,7 +102,7 @@
                <font>
                   <Font name="SansSerif Bold" size="14.0" />
                </font></Label>
-          <TextField layoutX="167.0" layoutY="213.0" prefHeight="21.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
+          <TextField layoutX="167.0" layoutY="213.0" prefHeight="20.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
             <CheckBox fx:id="dataCheckBox21" layoutX="245.0" layoutY="216.0" mnemonicParsing="false" text="Use TCP Server sink" textFill="#d9d9d9">
                <font>
                   <Font name="SansSerif Bold" size="14.0" />
@@ -127,6 +128,7 @@
                </font>
             </Label>
             <MFXButton fx:id="startButton" depthLevel="LEVEL3" layoutX="92.0" layoutY="105.0" prefHeight="25.0" prefWidth="75.0" rippleColor="#a19e9e" style="-fx-background-color: #D9D9D9;" text="start" />
+            <MFXTextField layoutX="31.0" layoutY="295.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;" visible="false">
@@ -148,6 +150,11 @@
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="276.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../image/up.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_graph1" layoutX="220.0" layoutY="174.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/graph.png" />
                </image>
             </ImageView>
          </children>
