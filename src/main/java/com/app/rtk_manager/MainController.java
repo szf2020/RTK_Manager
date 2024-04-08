@@ -7,6 +7,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 public class MainController {
 
@@ -30,13 +33,40 @@ public class MainController {
     private Button startButton;
     @FXML
     private Label dataLabel;
+    @FXML
+    private ImageView btn_settings,btn_status,btn_graph,btn_exit;
+    @FXML
+    private AnchorPane h_settings,h_status,h_graph;
 
 
     private DataRequest dataRequest = new DataRequest();
     private Thread backgroundThread;
     private boolean isRunning = false;
     private boolean isComportBaudrateDisabled = false;
+    private MouseEvent event;
 
+    @FXML
+    private void handleButtonAction(MouseEvent event) {
+        this.event = event;
+        if (event.getTarget() == btn_settings) {
+            h_settings.setVisible(true);
+            h_status.setVisible(false);
+            h_graph.setVisible(false);
+        } else if (event.getTarget() == btn_status) {
+            h_settings.setVisible(false);
+            h_status.setVisible(true);
+            h_graph.setVisible(false);
+        } else if (event.getTarget() == btn_graph) {
+            h_settings.setVisible(false);
+            h_status.setVisible(false);
+            h_graph.setVisible(true);
+        }else if (event.getTarget() == btn_exit) {
+//            h_settings.setVisible(false);
+//            h_status.setVisible(false);
+//            h_graph.setVisible(false);
+            Platform.exit();
+        }
+    }
     @FXML
     private void initialize() {
         initializeSerialPorts();
@@ -59,7 +89,7 @@ public class MainController {
                     }
                 } else {
                     // serial2 또는 baudrate2가 선택되지 않은 경우 사용자에게 선택하도록 안내
-                    System.out.println("Serial2와 Baudrate2를 선택하세요.");
+                    System.out.println("Please select Serial2 and Baudrate2.");
                     dataCheckBox.setSelected(false); // 체크박스 해제
                 }
             }
@@ -146,7 +176,7 @@ public class MainController {
             try {
                 while (isRunning) {
                     String receivedData = dataRequest.readData();
-                    Platform.runLater(() -> dataLabel.setText(receivedData));
+                  //  Platform.runLater(() -> dataLabel.setText(receivedData));
 
                     try {
                         Thread.sleep(1000);

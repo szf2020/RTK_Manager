@@ -97,7 +97,6 @@ public class DataRequest {
 
         int bytesWritten = comPort.writeBytes(commandWithChecksum, commandWithChecksum.length);
         System.out.println("Bytes Written (" + commandType + "): " + bytesWritten);
-
         System.out.println(commandType + " Data transmission complete.\n");
     }
 

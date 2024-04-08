@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="470.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.rtk_manager.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="470.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app.rtk_manager.MainController">
   <children>
-
-      <Accordion layoutX="17.0" layoutY="298.0" />
-      <AnchorPane prefHeight="85.0" prefWidth="470.0" style="-fx-background-color: #3B4754;" />
-      <AnchorPane layoutY="94.0" prefHeight="340.0" prefWidth="473.0" style="-fx-background-color: #3B4754;">
+      <AnchorPane fx:id="topbar" prefHeight="95.0" prefWidth="470.0" style="-fx-background-color: #353F54;">
+         <children>
+            <ImageView fx:id="btn_settings" layoutX="63.0" layoutY="18.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/setting.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_status" layoutX="170.0" layoutY="18.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/status.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_graph" layoutX="275.0" layoutY="16.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/graph.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="btn_exit" layoutX="372.0" layoutY="16.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/close.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane fx:id="h_settings" layoutX="-5.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;">
          <children>
           <Label layoutX="14.0" layoutY="18.0" prefHeight="26.0" prefWidth="105.0" text="Source settings :" textFill="#eee4e4" />
           <Label layoutX="171.0" layoutY="19.0" prefHeight="26.0" prefWidth="91.0" text="Sink settings : " textFill="#f2eeee" />
@@ -33,12 +60,35 @@
           <Label layoutX="163.0" layoutY="231.0" text="Port : " textFill="#eeeaea" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="231.0" />
           <TextField layoutX="163.0" layoutY="253.0" prefHeight="21.0" prefWidth="66.0" />
             <CheckBox fx:id="dataCheckBox21" layoutX="241.0" layoutY="256.0" mnemonicParsing="false" text="Use TCP Server sink" textFill="#eeeaea" />
-          <Label layoutX="8.0" layoutY="285.0" text="Link status" textFill="#f8f1f1" />
-          <AnchorPane layoutX="5.0" layoutY="303.0" prefHeight="88.0" prefWidth="464.0" style="-fx-border-color: gray;" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="303.0">
-               <children>
-              <Label fx:id="dataLabel" layoutX="11.0" layoutY="1.0" prefHeight="85.0" prefWidth="440.0" text="received data" textFill="#eeeaea" />
-               </children>
-          </AnchorPane>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="69.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/up.png" />
+               </image>
+            </ImageView>
+            <MFXButton layoutX="223.0" layoutY="143.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;" visible="false">
+         <children>
+            <ImageView fx:id="btn_status1" layoutX="224.0" layoutY="170.0" onMousePressed="#handleButtonAction" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/status.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="172.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/up.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="h_graph" layoutY="110.0" prefHeight="370.0" prefWidth="470.0" style="-fx-background-color: #353F54;" visible="false">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="276.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../image/up.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
   </children>
