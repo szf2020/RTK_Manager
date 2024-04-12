@@ -1,6 +1,8 @@
 package com.app.rtk_manager;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,38 +16,32 @@ import javafx.scene.layout.AnchorPane;
 public class MainController {
 
     @FXML
-    public TextField ipAddress;
+    public TextField ipAddress,udpPort;
     @FXML
-    public TextField udpPort;
+    private TextField surveyAcc,surveyTime;
     @FXML
-    private ChoiceBox<String> serial1;
+    private ChoiceBox<String> serial1,serial2;
     @FXML
-    private ChoiceBox<String> serial2;
+    private ChoiceBox<Integer> baudrate1,baudrate2;
     @FXML
-    private ChoiceBox<Integer> baudrate1;
-    @FXML
-    private ChoiceBox<Integer> baudrate2;
-    @FXML
-    private CheckBox dataCheckBox;
-    @FXML
-    private CheckBox dataCheckBox2;
+    private CheckBox dataCheckBox,dataCheckBox2;
     @FXML
     private Button startButton;
     @FXML
     private Label dataLabel;
     @FXML
-    private ImageView btn_settings,btn_status,btn_graph,btn_exit;
+    private ImageView btn_settings,btn_status,btn_graph,btn_exit,btn_restart;
     @FXML
     private AnchorPane h_settings,h_status,h_graph;
     private boolean topBarVisible = true;
-
-
-
     private DataRequest dataRequest = new DataRequest();
     private Thread backgroundThread;
     private boolean isRunning = false;
     private boolean isComportBaudrateDisabled = false;
     private MouseEvent event;
+    // 매핑을 위한 장치 이름과 시스템 포트 이름의 맵
+    private Map<String, String> deviceToSystemPortMap = new HashMap<>();
+
 
     @FXML
     private void handleButtonAction(MouseEvent event) {
@@ -75,7 +71,31 @@ public class MainController {
                 Platform.exit();
             }
         }
-    }
+        else if (event.getTarget() == btn_restart) {
+            // surveyAcc와 surveyTime 값을 읽어옴
+            String accText = surveyAcc.getText();
+            String timeText = surveyTime.getText();
+            double  surveyAccValue = Double.parseDouble(accText);
+//            float surveyAccValue = Float.parseFloat(accText);
+
+            int surveyTimeValue = Integer.parseInt(timeText);
+
+            // surveyTimeValue와 surveyAccFixedPoint 값을 CommandFactory에 설정
+            CommandFactory.surveyAccValue = surveyAccValue;
+            CommandFactory.surveyTimeValue = surveyTimeValue;
+
+            // RequestSurveyin 메소드 호출하여 요청 데이터 출력
+            dataRequest.sendRequestSurveyin();
+            System.out.println("surveyAccValue: " + surveyAccValue);
+            for (byte b : CommandFactory.RequestSurveyin()) {
+                System.out.printf("%02X ", b);
+            }
+            System.out.println(" ");
+            System.out.printf("set SurveyinAcc : %.1f  time : %d",surveyAccValue,surveyTimeValue);
+
+        }
+        }
+
     @FXML
     private void initialize() {
         initializeSerialPorts();
@@ -83,6 +103,7 @@ public class MainController {
         h_settings.setVisible(false);
         h_status.setVisible(false);
         h_graph.setVisible(false);
+
 
         startButton.setOnAction(event -> onStartButtonClick());
 
@@ -120,22 +141,40 @@ public class MainController {
                 }
             }
         });
-
     }
 
     private void initializeSerialPorts() {
         ObservableList<String> portList = FXCollections.observableArrayList();
         SerialPort[] serialPorts = SerialPort.getCommPorts();
-        Arrays.stream(serialPorts).map(SerialPort::getSystemPortName).forEach(portList::add);
+
+        // 시리얼 포트의 장치 이름과 시스템 포트 이름을 매핑하여 저장
+        for (SerialPort port : serialPorts) {
+            String descriptivePortName = port.getPortDescription();
+            String descriptivePortNumber = port.getSystemPortName();
+            String systemPortName = port.getSystemPortName();
+            portList.add(descriptivePortName+"("+ descriptivePortNumber +")");
+            deviceToSystemPortMap.put(descriptivePortName+"("+ descriptivePortNumber +")", systemPortName);
+        }
         serial1.setItems(portList);
         serial2.setItems(portList);
+    }
+
+    private void initializeDataRequest(String selectedDevice, int selectedBaudrate) {
+        // 장치 이름에 대응하는 시스템 포트 이름을 가져옴
+        String systemPortName = deviceToSystemPortMap.get(selectedDevice);
+        dataRequest.setSerialport(systemPortName, selectedBaudrate);
+    }
+
+    private void initializeMavlinkStream(String selectedDevice, int selectedBaudrate) {
+        // 장치 이름에 대응하는 시스템 포트 이름을 가져옴
+        String systemPortName = deviceToSystemPortMap.get(selectedDevice);
+        dataRequest.mavlinkStream.setSerialport(systemPortName, selectedBaudrate);
     }
 
     private void initializeBaudrates() {
         baudrate1.getItems().addAll(null,9600, 115200);
         baudrate2.getItems().addAll(null,9600, 115200);
     }
-
 
     private void onStartButtonClick()  {
         if (isRunning) {
@@ -173,16 +212,6 @@ public class MainController {
             startButton.setText("Start");
         }
     }
-
-    private void initializeDataRequest(String selectedSerial, int selectedBaudrate) {
-        dataRequest.setSerialport(selectedSerial, selectedBaudrate);
-    }
-
-    private void initializeMavlinkStream(String selectedSerial2, int selectedBaudrate) {
-        dataRequest.mavlinkStream.setSerialport(selectedSerial2, selectedBaudrate);
-    }
-
-
     private void startBackgroundThread(boolean includeData) {
         backgroundThread = new Thread(() -> {
             try {

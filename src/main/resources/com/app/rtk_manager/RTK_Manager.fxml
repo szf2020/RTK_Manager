@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.mfxcore.controls.Label?>
 <?import io.github.palexdev.mfxcore.controls.Text?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -59,7 +59,7 @@
                </font>
             </Label>
          </children></AnchorPane>
-      <AnchorPane fx:id="h_settings" layoutX="-5.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;" visible="false">
+      <AnchorPane fx:id="h_settings" layoutX="-5.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;">
          <children>
           <Label layoutX="20.0" layoutY="8.0" prefHeight="26.0" prefWidth="119.0" text="Source settings :" textFill="#d9d9d9">
                <font>
@@ -145,7 +145,7 @@
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="6.0" layoutY="31.0" prefHeight="21.0" prefWidth="64.0" style="-fx-background-color: #D9D9D9;" />
+                  <TextField fx:id="surveyAcc" layoutX="6.0" layoutY="31.0" prefHeight="21.0" prefWidth="64.0" style="-fx-background-color: #D9D9D9;" />
                </children>
             </Pane>
             <Pane layoutX="137.0" layoutY="291.0" prefHeight="60.0" prefWidth="102.0" style="-fx-background-color: #D9D9D9; -fx-background-radius: 5;">
@@ -160,10 +160,10 @@
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="6.0" layoutY="31.0" prefHeight="21.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
+                  <TextField fx:id="surveyTime" layoutX="6.0" layoutY="31.0" prefHeight="21.0" prefWidth="66.0" style="-fx-background-color: #D9D9D9;" />
                </children>
             </Pane>
-            <Pane layoutX="256.0" layoutY="296.0" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #D9D9D9; -fx-background-radius: 5;">
+            <Pane layoutX="256.0" layoutY="296.0" onMousePressed="#handleButtonAction" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #D9D9D9; -fx-background-radius: 5;">
                <children>
                   <ImageView fx:id="btn_restart" fitHeight="35.0" fitWidth="35.0" layoutX="8.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -174,7 +174,7 @@
             </Pane>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;">
+      <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;" visible="false">
          <children>
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="172.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -223,7 +223,7 @@
             </Label>
             <Pane layoutX="75.0" layoutY="184.0" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: #353F54;">
                <children>
-                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" text="Data" textFill="#d9d9d9">
+                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" textFill="#d9d9d9">
                      <font>
                         <Font name="SansSerif Bold" size="14.0" />
                      </font>
@@ -238,7 +238,7 @@
             <Separator layoutX="75.0" layoutY="101.0" prefHeight="20.0" prefWidth="350.0" />
             <Pane layoutX="75.0" layoutY="51.0" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: #353F54;">
                <children>
-                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" text="Data" textFill="#d9d9d9">
+                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" textFill="#d9d9d9">
                      <font>
                         <Font name="SansSerif Bold" size="14.0" />
                      </font>

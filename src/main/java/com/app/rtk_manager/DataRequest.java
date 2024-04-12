@@ -30,6 +30,7 @@ public class DataRequest {
         }
     }
 
+
     // sendRTCM 메서드
     public void sendRTCM() {
         try {
@@ -79,6 +80,8 @@ public class DataRequest {
             if (isSerialPortOpen()) {
                 byte[] surveyinStc = CommandFactory.SurveyinStc();
                 sendCommandWithChecksum("Surveyin", surveyinStc);
+
+
             } else {
                 handleClosedSerialPortError();
             }
@@ -86,6 +89,22 @@ public class DataRequest {
             handleException("Surveyin 호출 중 오류 발생", e);
         }
     }
+
+    public void sendRequestSurveyin() {
+        try {
+            if (isSerialPortOpen()) {
+
+                byte[] RequestSurveyin = CommandFactory.RequestSurveyin();
+                sendCommandWithChecksum("RequestSurveyin", RequestSurveyin);
+
+            } else {
+                handleClosedSerialPortError();
+            }
+        } catch (Exception e) {
+            handleException("Surveyin 호출 중 오류 발생", e);
+        }
+    }
+
 
     private void sendCommandWithChecksum(String commandType, byte[] command) {
         byte[] calculatedChecksum = ChecksumCalculator.calculateChecksum(command);
@@ -110,18 +129,6 @@ public class DataRequest {
                 String.format("%02X ", commandWithChecksum[commandWithChecksum.length - 1]));
     }
 
-    private void handleException(String message, Exception e) {
-        e.printStackTrace();
-        System.err.println(message + ": " + e.getMessage());
-    }
-
-    private boolean isSerialPortOpen() {
-        return comPort != null && comPort.isOpen();
-    }
-
-    private void handleClosedSerialPortError() {
-        System.err.println("시리얼 포트가 열려있지 않습니다.");
-    }
 
     public String readData() {
         StringBuilder receivedData = new StringBuilder();
@@ -142,21 +149,10 @@ public class DataRequest {
     private void parseData(byte[] data) {
         int type = 0;
         int offset = 0;
-        byte[] token = null; // 토큰을 초기화합니다.
+        byte[] token; // 토큰을 초기화합니다.
 
         for (int i = 1; i < data.length; i++) {
-            if (data[i - 1] == (byte) 0xB5 && data[i] == (byte) 0x62) { // UBX
-                if (type != 0) {
-                    token = Arrays.copyOfRange(data, offset, i - 1);
-                    processToken(type, token);
-                }
-//                System.out.println(" ");
-//                System.out.println(i + " : UBX  ");
-                type = 2;
-                offset = i - 1;
-            }
-
-            else if (data[i - 1] == (byte) 0x24 && data[i] == (byte) 0x47) { // NMEA
+             if (data[i - 1] == (byte) 0x24 && data[i] == (byte) 0x47) { // NMEA
                 if (type != 0) {
                     token = Arrays.copyOfRange(data, offset, i - 1);
                     processToken(type, token);
@@ -164,6 +160,17 @@ public class DataRequest {
 //                System.out.println(" ");
 //                System.out.println(i + " : NMEA  ");
                 type = 1;
+                offset = i - 1;
+            }
+
+            else if (data[i - 1] == (byte) 0xB5 && data[i] == (byte) 0x62) { // UBX
+                if (type != 0) {
+                    token = Arrays.copyOfRange(data, offset, i - 1);
+                    processToken(type, token);
+                }
+                System.out.println(" ");
+                System.out.println(i + " : UBX  ");
+                type = 2;
                 offset = i - 1;
             }
 
@@ -188,10 +195,10 @@ public class DataRequest {
     private void processToken(int type, byte[] token) {
         switch (type) {
             case 1:
-//                parseNMEA(token);
+                parseNMEA(token);
                 break;
             case 2:
-//                parseUBX(token);
+                parseUBX(token);
                 break;
             case 3:
                 parseRTCM(token);
@@ -237,6 +244,19 @@ public class DataRequest {
 
     public void setMavlinkStream(MavlinkStream mavlinkStream) {
         this.mavlinkStream = mavlinkStream;
+    }
+
+    private void handleException(String message, Exception e) {
+        e.printStackTrace();
+        System.err.println(message + ": " + e.getMessage());
+    }
+
+    private boolean isSerialPortOpen() {
+        return comPort != null && comPort.isOpen();
+    }
+
+    private void handleClosedSerialPortError() {
+        System.err.println("시리얼 포트가 열려있지 않습니다.");
     }
 
     public void closePort() {
