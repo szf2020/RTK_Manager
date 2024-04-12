@@ -38,6 +38,7 @@ public class MainController {
     private Thread backgroundThread;
     private boolean isRunning = false;
     private boolean isComportBaudrateDisabled = false;
+    private boolean isComportBaudrateDisabled2 = false;
     private MouseEvent event;
     // 매핑을 위한 장치 이름과 시스템 포트 이름의 맵
     private Map<String, String> deviceToSystemPortMap = new HashMap<>();
@@ -72,6 +73,7 @@ public class MainController {
             }
         }
         else if (event.getTarget() == btn_restart) {
+
             // surveyAcc와 surveyTime 값을 읽어옴
             String accText = surveyAcc.getText();
             String timeText = surveyTime.getText();
@@ -86,12 +88,13 @@ public class MainController {
 
             // RequestSurveyin 메소드 호출하여 요청 데이터 출력
             dataRequest.sendRequestSurveyin();
-            System.out.println("surveyAccValue: " + surveyAccValue);
+          //  System.out.println("surveyAccValue: " + surveyAccValue);
             for (byte b : CommandFactory.RequestSurveyin()) {
                 System.out.printf("%02X ", b);
             }
             System.out.println(" ");
-            System.out.printf("set SurveyinAcc : %.1f  time : %d",surveyAccValue,surveyTimeValue);
+            System.out.printf("set SurveyinAcc : %.1f  time : %d\n",surveyAccValue,surveyTimeValue);
+
 
         }
         }
@@ -110,6 +113,8 @@ public class MainController {
         // dataCheckBox에 대한 리스너 추가
         dataCheckBox.setOnAction(event -> {
             if (dataCheckBox.isSelected()) {
+                serial2.setDisable(true);
+                baudrate2.setDisable(true);
                 // serial2와 baudrate2가 선택되었는지 확인
                 String selectedSerial2 = serial2.getValue();
                 Integer selectedBaudrate2 = baudrate2.getValue();
@@ -125,9 +130,14 @@ public class MainController {
                     System.out.println("Please select Serial2 and Baudrate2.");
                     dataCheckBox.setSelected(false); // 체크박스 해제
                 }
+            } else {
+                // 체크박스가 선택 해제될 때 serial2와 baudrate2의 비활성화를 다시 활성화로 변경
+                serial2.setDisable(false);
+                baudrate2.setDisable(false);
+                // sinkFlag를 0으로 설정하여 데이터 전송 중지
+                dataRequest.sinkFlag = 0;
             }
         });
-
         // dataCheckBox2에 대한 리스너 추가
         dataCheckBox2.setOnAction(event -> {
             if (dataCheckBox2.isSelected()) {

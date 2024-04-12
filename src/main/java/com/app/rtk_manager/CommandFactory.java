@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class CommandFactory {
-    public static double  surveyAccValue;
+    public static double surveyAccValue;
     public static int surveyTimeValue;
 
     public static byte[] RTCM1005() {
@@ -194,9 +194,9 @@ public class CommandFactory {
         //byte[] accBytes = ByteBuffer.allocate(8).putDouble((float) surveyAccValue).array();
         byte[] timeBytes = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(surveyTimeValue).array();
 
-        // accBytes와 timeBytes 배열에 들어간 값을 출력
-        System.out.println("accBytes: " + bytesToHex(accBytes));
-        System.out.println("timeBytes: " + bytesToHex(timeBytes));
+//        // accBytes와 timeBytes 배열에 들어간 값을 출력
+//        System.out.println("accBytes: " + bytesToHex(accBytes));
+//        System.out.println("timeBytes: " + bytesToHex(timeBytes));
 
         // RequestSurveyin 메소드에서 사용할 바이트 배열 생성
         byte[] request = new byte[]{
@@ -218,7 +218,7 @@ public class CommandFactory {
                 timeBytes[0], timeBytes[1],
                 timeBytes[2], timeBytes[3], // surveyTime
                 accBytes[0], accBytes[1],
-                accBytes[2], accBytes[3],
+                accBytes[2], accBytes[3],// surveyAcc
 //                accBytes[4], accBytes[5],
 //                accBytes[6], accBytes[7],
                 (byte) 0x00, (byte) 0x00,
@@ -229,19 +229,21 @@ public class CommandFactory {
         return request;
     }
 
+
+    //고정소수점형식으로 데이터 변환
     public static byte[] decimalToFixedPoint(double decimal, int precision) {
         // Scaling factor based on precision (e.g., 2 meters = 100 for 2 decimal places)
-        int scaleFactor = (int) Math.pow(10, precision);
+        int scaleFactor = (int) Math.pow(10, precision); //10^4 = 10000
 
         // Multiply the decimal number by the scaling factor and convert to integer
-        int fixedPoint = (int) (decimal * scaleFactor);
+        int fixedPoint = (int) (decimal * scaleFactor); // 2.0 * 10000 = 20000 -> 100111000100000
 
         // Convert the integer to bytes
-        byte[] bytes = new byte[4];
-        bytes[0] = (byte) (fixedPoint & 0xFF);
-        bytes[1] = (byte) ((fixedPoint >> 8) & 0xFF);
-        bytes[2] = (byte) ((fixedPoint >> 16) & 0xFF);
-        bytes[3] = (byte) ((fixedPoint >> 24) & 0xFF);
+        byte[] bytes = new byte[4]; // 32비트 배열 생성 0000 0000 0000 0000
+        bytes[0] = (byte) (fixedPoint & 0xFF); // 0100111000100000 -> 4E 20 -> 20
+        bytes[1] = (byte) ((fixedPoint >> 8) & 0xFF); // 0000000001001110 -> 4E
+        bytes[2] = (byte) ((fixedPoint >> 16) & 0xFF); // 00
+        bytes[3] = (byte) ((fixedPoint >> 24) & 0xFF); // 00
 
         return bytes;
     }

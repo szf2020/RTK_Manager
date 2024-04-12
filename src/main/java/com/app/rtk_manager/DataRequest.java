@@ -120,7 +120,7 @@ public class DataRequest {
     }
 
     private void printChecksumAndData(String commandType, byte[] calculatedChecksum, byte[] commandWithChecksum) {
-        System.out.println("Checksum (" + commandType + "): " +
+        System.out.println("\nChecksum (" + commandType + "): " +
                 String.format("%02X ", calculatedChecksum[0]) +
                 String.format("%02X ", calculatedChecksum[1]));
 
@@ -218,6 +218,8 @@ public class DataRequest {
         mavlinkStream.processIncomingData(token);
         if((sinkFlag & 0b00000001) == 0b00000001) {
             mavlinkStream.sendToLora();
+        }else if(sinkFlag == 0){
+
         }
         if((sinkFlag & 0b00000010) == 0b00000010) {
             mavlinkStream.sendToUDP();
