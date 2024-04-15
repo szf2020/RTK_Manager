@@ -1,5 +1,5 @@
 package com.app.rtk_manager;
-
+// RTK로부터 요청할 데이터의 구조를 생성하는 클래스
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -170,7 +170,7 @@ public class CommandFactory {
         };
     }
 
-    public static byte[] SurveyinStc() {
+    public static byte[] NavSVIN() {
         return new byte[]{
                 (byte) 0xB5, (byte) 0x62, // UBX Sync Characters
                 (byte) 0x06, (byte) 0x01, // UBX Class: CFG (Configuration), UBX Message ID: MSG (Message)
@@ -186,6 +186,24 @@ public class CommandFactory {
                 // 체크섬 (2 바이트)는 나중에 추가될 것입니다
         };
     }
+
+    public static byte[] NavPOSLLH() {
+        return new byte[]{
+                (byte) 0xB5, (byte) 0x62, // UBX Sync Characters
+                (byte) 0x06, (byte) 0x01, // UBX Class: CFG (Configuration), UBX Message ID: MSG (Message)
+                (byte) 0x08, (byte) 0x00, // payload length
+                (byte) 0x01, (byte) 0x02, // Message ID: survey-in
+                (byte) 0x00, (byte) 0x00,
+                (byte) 0x00, (byte) 0x01,
+                (byte) 0x00, (byte) 0x00,
+                //   (byte) 0x00, (byte) 0x00,
+
+                //  (byte) 0x4C, (byte) 0x4B,
+
+                // 체크섬 (2 바이트)는 나중에 추가될 것입니다
+        };
+    }
+
 
     //timemode3 설정
     public static byte[] RequestSurveyin() {

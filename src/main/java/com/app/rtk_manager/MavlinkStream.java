@@ -1,5 +1,5 @@
 package com.app.rtk_manager;
-
+// RTK로부터 받은 데이터를 마브링크 패킷으로 변환하여 처리하는 클래스
 import com.fazecast.jSerialComm.SerialPort;
 import com.MAVLink.MAVLinkPacket;
 import com.MAVLink.common.msg_gps_rtcm_data;

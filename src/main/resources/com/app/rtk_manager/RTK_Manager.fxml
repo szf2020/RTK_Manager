@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.mfxcore.controls.Label?>
 <?import io.github.palexdev.mfxcore.controls.Text?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -179,7 +179,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;" visible="false">
+      <AnchorPane fx:id="h_status" layoutX="-4.0" layoutY="110.0" prefHeight="370.0" prefWidth="477.0" style="-fx-background-color: #353F54;">
          <children>
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="172.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -193,31 +193,31 @@
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Pane fx:id="base_box" layoutX="66.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513;" />
+                  <Pane fx:id="base_box" layoutX="66.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513; -fx-background-radius: 3;" />
                   <Label layoutX="113.0" layoutY="29.0" prefHeight="13.0" prefWidth="35.0" text="Gps">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="143.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513;" />
+                  <Pane layoutX="143.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513; -fx-background-radius: 3;" />
                   <Label layoutX="173.0" layoutY="29.0" prefHeight="15.0" prefWidth="49.0" text="Glonass">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="228.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513;" />
+                  <Pane layoutX="228.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513; -fx-background-radius: 3;" />
                   <Label layoutX="272.0" layoutY="29.0" prefHeight="15.0" prefWidth="50.0" text="Beidou">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="317.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513;" />
+                  <Pane layoutX="317.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513; -fx-background-radius: 3;" />
                   <Label layoutX="350.0" layoutY="29.0" prefHeight="15.0" prefWidth="41.0" text="Galileo">
                      <font>
                         <Font name="SansSerif Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="395.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513;" />
+                  <Pane layoutX="395.0" layoutY="27.0" prefHeight="20.0" prefWidth="20.0" style="-fx-background-color: #EB0513; -fx-background-radius: 3;" />
                </children>
             </Pane>
             <Separator layoutX="75.0" layoutY="234.0" prefHeight="20.0" prefWidth="350.0" />
@@ -228,11 +228,7 @@
             </Label>
             <Pane layoutX="75.0" layoutY="184.0" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: #353F54;">
                <children>
-                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" textFill="#d9d9d9">
-                     <font>
-                        <Font name="SansSerif Bold" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label fx:id="rtcm_text" prefHeight="50.0" prefWidth="350.0" />
                </children>
             </Pane>
             <Label layoutX="16.0" layoutY="27.0" text="Survey In :" textFill="#d9d9d9">
@@ -243,11 +239,7 @@
             <Separator layoutX="75.0" layoutY="101.0" prefHeight="20.0" prefWidth="350.0" />
             <Pane layoutX="75.0" layoutY="51.0" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: #353F54;">
                <children>
-                  <Label layoutX="14.0" layoutY="6.0" prefHeight="35.0" prefWidth="319.0" textFill="#d9d9d9">
-                     <font>
-                        <Font name="SansSerif Bold" size="14.0" />
-                     </font>
-                  </Label>
+                  <Label fx:id="surveyin_text" prefHeight="50.0" prefWidth="350.0" />
                </children>
             </Pane>
             <ImageView fx:id="pabloair1" fitHeight="102.0" fitWidth="430.0" layoutX="22.0" layoutY="81.0" opacity="0.1">
@@ -257,7 +249,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="h_graph" layoutY="110.0" prefHeight="370.0" prefWidth="470.0" style="-fx-background-color: #353F54;">
+      <AnchorPane fx:id="h_graph" layoutY="110.0" prefHeight="370.0" prefWidth="470.0" style="-fx-background-color: #353F54;" visible="false">
          <children>
             <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="276.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
                <image>

@@ -1,5 +1,5 @@
 package com.app.rtk_manager;
-
+// GUI를 실행시켜 주는 클래스
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

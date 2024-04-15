@@ -1,7 +1,9 @@
 package com.app.rtk_manager;
 
+// RTK로 데이터를 요청하고 받은 데이터를 파싱해주는 클래스
 import com.fazecast.jSerialComm.SerialPort;
 import java.util.Arrays;
+
 
 
 public class DataRequest {
@@ -13,6 +15,9 @@ public class DataRequest {
     }
 
     private SerialPort comPort;
+
+    private DataProcessing dataProcessing;
+
 
     public void setSerialport(String selectedSerial1, int selectedBaudrate1) {
         try {
@@ -70,7 +75,7 @@ public class DataRequest {
                 handleClosedSerialPortError();
             }
         } catch (Exception e) {
-            handleException("RTCM 호출 중 예외 발생", e);
+            handleException("RTCM ERROR", e);
         }
     }
 
@@ -78,15 +83,15 @@ public class DataRequest {
     public void sendSurveyin() {
         try {
             if (isSerialPortOpen()) {
-                byte[] surveyinStc = CommandFactory.SurveyinStc();
-                sendCommandWithChecksum("Surveyin", surveyinStc);
+                byte[] NavSVIN = CommandFactory.NavSVIN();
+                sendCommandWithChecksum("NavSVIN", NavSVIN);
 
 
             } else {
                 handleClosedSerialPortError();
             }
         } catch (Exception e) {
-            handleException("Surveyin 호출 중 오류 발생", e);
+            handleException("Surveyin ERROR", e);
         }
     }
 
@@ -101,7 +106,22 @@ public class DataRequest {
                 handleClosedSerialPortError();
             }
         } catch (Exception e) {
-            handleException("Surveyin 호출 중 오류 발생", e);
+            handleException("RequestSurveyin ERROR", e);
+        }
+    }
+
+    public void sendNavPOSLLH() {
+        try {
+            if (isSerialPortOpen()) {
+
+                byte[] NavPOSLLH = CommandFactory.NavPOSLLH();
+                sendCommandWithChecksum("NavPOSLLH", NavPOSLLH);
+
+            } else {
+                handleClosedSerialPortError();
+            }
+        } catch (Exception e) {
+            handleException("NavPOSLLH ERROR", e);
         }
     }
 
@@ -233,6 +253,17 @@ public class DataRequest {
             System.out.printf("%02X ", b);
         }
         System.out.println();
+
+        // UBX 데이터를 UBXNavPosllhDecoder 클래스의 decodeUBXNAVPOSLLH 메서드로 전달하여 데이터 파싱
+        if (dataProcessing != null) {
+            dataProcessing.processPosllh(token);
+        }
+
+        // UBX 데이터를 DataProcessing 클래스로 전달하여 데이터 파싱
+        if (dataProcessing != null) {
+          dataProcessing.processSurveyin(token);
+
+        }
     }
 
     private void parseNMEA(byte[] token) {
@@ -241,11 +272,15 @@ public class DataRequest {
 //            System.out.printf("%02X ", b);
 //        }
 //        System.out.println();
-
     }
+
 
     public void setMavlinkStream(MavlinkStream mavlinkStream) {
         this.mavlinkStream = mavlinkStream;
+    }
+
+    public void setDataProcessing(DataProcessing dataProcessing) {
+        this.dataProcessing = dataProcessing;
     }
 
     private void handleException(String message, Exception e) {

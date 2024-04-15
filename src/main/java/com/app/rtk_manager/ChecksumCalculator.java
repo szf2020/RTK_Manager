@@ -1,5 +1,5 @@
 package com.app.rtk_manager;
-
+// RTK로 데이터요청시 체크섬을 계산하는 클래스
 public class ChecksumCalculator {
 
 

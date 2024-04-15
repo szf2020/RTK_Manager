@@ -1,5 +1,5 @@
 package com.app.rtk_manager;
-
+// GUI에 기능들을 사용하게 하는 클래스
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,13 +28,15 @@ public class MainController {
     @FXML
     private Button startButton;
     @FXML
-    private Label dataLabel;
+    private Label surveyin_text;
     @FXML
     private ImageView btn_settings,btn_status,btn_graph,btn_exit,btn_restart;
     @FXML
     private AnchorPane h_settings,h_status,h_graph;
     private boolean topBarVisible = true;
     private DataRequest dataRequest = new DataRequest();
+    // DataProcessing 객체 생성
+    private DataProcessing dataProcessing = new DataProcessing();
     private Thread backgroundThread;
     private boolean isRunning = false;
     private boolean isComportBaudrateDisabled = false;
@@ -42,7 +44,6 @@ public class MainController {
     private MouseEvent event;
     // 매핑을 위한 장치 이름과 시스템 포트 이름의 맵
     private Map<String, String> deviceToSystemPortMap = new HashMap<>();
-
 
     @FXML
     private void handleButtonAction(MouseEvent event) {
@@ -101,6 +102,8 @@ public class MainController {
 
     @FXML
     private void initialize() {
+        // DataRequest 객체에 DataProcessing 객체 설정
+        dataRequest.setDataProcessing(dataProcessing);
         initializeSerialPorts();
         initializeBaudrates();
         h_settings.setVisible(false);
@@ -118,6 +121,7 @@ public class MainController {
                 // serial2와 baudrate2가 선택되었는지 확인
                 String selectedSerial2 = serial2.getValue();
                 Integer selectedBaudrate2 = baudrate2.getValue();
+
                 if (selectedSerial2 != null && selectedBaudrate2 != null) {
                     // serial2와 baudrate2가 모두 선택된 경우 mavlinkStream을 초기화
                     selectedBaudrate2 = selectedBaudrate2.intValue();
@@ -199,6 +203,7 @@ public class MainController {
 
                 dataRequest.sendRTCM();
                 dataRequest.sendSurveyin();
+                dataRequest.sendNavPOSLLH();
 
                 startBackgroundThread(isRunning);
 
@@ -226,15 +231,22 @@ public class MainController {
         backgroundThread = new Thread(() -> {
             try {
                 while (isRunning) {
-                    String receivedData = dataRequest.readData();
-                  //  Platform.runLater(() -> dataLabel.setText(receivedData));
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                    String readData = dataRequest.readData();
+//                    // DataProcessing 클래스에서 처리된 데이터 가져오기
+                    SurveyInStatus processPOSLLH = dataProcessing.getprocessPOSLLH();
+                    // GUI에 데이터 출력
+//                    Platform.runLater(() -> {
+//                        // survey_text는 SurveyInStatus 객체의 정보를 출력하는 TextField입니다.
+//                        surveyin_text.setText(String.format("Latitude: %.6f\nLongitude: %.6f\nAltitude: %.2f\nMean Accuracy: %d\nDuration: %d\nFlags: %d",
+//                                surveyInStatus.getLatitude(), surveyInStatus.getLongitude(), surveyInStatus.getAltitude(),
+//                                surveyInStatus.getMeanAccuracy(), surveyInStatus.getDuration(), surveyInStatus.getFlags()));
+//                    });
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
                     }
-                }
             } catch (Exception e) {
                e.printStackTrace();
             }
