@@ -160,7 +160,6 @@ public class DataRequest {
                 parseData(readBuffer);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             System.err.println("Error while dividing tokens: " + e.getMessage());
         }
         return receivedData.toString();

@@ -28,20 +28,17 @@ public class MainController {
     @FXML
     private Button startButton;
     @FXML
-    private Label surveyin_text;
-    @FXML
     private ImageView btn_settings,btn_status,btn_graph,btn_exit,btn_restart;
     @FXML
     private AnchorPane h_settings,h_status,h_graph;
     private boolean topBarVisible = true;
     private DataRequest dataRequest = new DataRequest();
-    // DataProcessing 객체 생성
-    private DataProcessing dataProcessing = new DataProcessing();
     private Thread backgroundThread;
     private boolean isRunning = false;
     private boolean isComportBaudrateDisabled = false;
     private boolean isComportBaudrateDisabled2 = false;
     private MouseEvent event;
+    public Label positionData;
     // 매핑을 위한 장치 이름과 시스템 포트 이름의 맵
     private Map<String, String> deviceToSystemPortMap = new HashMap<>();
 
@@ -102,8 +99,6 @@ public class MainController {
 
     @FXML
     private void initialize() {
-        // DataRequest 객체에 DataProcessing 객체 설정
-        dataRequest.setDataProcessing(dataProcessing);
         initializeSerialPorts();
         initializeBaudrates();
         h_settings.setVisible(false);
@@ -231,16 +226,15 @@ public class MainController {
         backgroundThread = new Thread(() -> {
             try {
                 while (isRunning) {
-                    String readData = dataRequest.readData();
-//                    // DataProcessing 클래스에서 처리된 데이터 가져오기
-                    SurveyInStatus processPOSLLH = dataProcessing.getprocessPOSLLH();
+                    dataRequest.readData();
+                    DataProcessing dataprocessing = new DataProcessing();
+
                     // GUI에 데이터 출력
-//                    Platform.runLater(() -> {
-//                        // survey_text는 SurveyInStatus 객체의 정보를 출력하는 TextField입니다.
-//                        surveyin_text.setText(String.format("Latitude: %.6f\nLongitude: %.6f\nAltitude: %.2f\nMean Accuracy: %d\nDuration: %d\nFlags: %d",
-//                                surveyInStatus.getLatitude(), surveyInStatus.getLongitude(), surveyInStatus.getAltitude(),
-//                                surveyInStatus.getMeanAccuracy(), surveyInStatus.getDuration(), surveyInStatus.getFlags()));
-//                    });
+                    Platform.runLater(() -> {
+                        positionData.setText(String.format("Latitude: %.6f\nLongitude: %.6f\nAltitude: %.2f",
+                                dataprocessing.getLatitude(),  dataprocessing.getLongitude(),  dataprocessing.getAltitude()));
+                    });
+
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {

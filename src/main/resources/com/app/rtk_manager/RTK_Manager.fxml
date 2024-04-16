@@ -239,7 +239,7 @@
             <Separator layoutX="75.0" layoutY="101.0" prefHeight="20.0" prefWidth="350.0" />
             <Pane layoutX="75.0" layoutY="51.0" prefHeight="50.0" prefWidth="350.0" style="-fx-background-color: #353F54;">
                <children>
-                  <Label fx:id="surveyin_text" prefHeight="50.0" prefWidth="350.0" />
+                  <Label fx:id="positionData" prefHeight="50.0" prefWidth="350.0" />
                </children>
             </Pane>
             <ImageView fx:id="pabloair1" fitHeight="102.0" fitWidth="430.0" layoutX="22.0" layoutY="81.0" opacity="0.1">

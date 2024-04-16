@@ -116,6 +116,7 @@ public class MavlinkStream {
             System.out.println("UDP Packet : " + mavlinkpacket.length);
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.err.println("Failed to send to UDP socket");
         }
     }
